@@ -1,0 +1,1 @@
+If you want to run the game, you have to obviously import the game project files into Godot and then run the Main Scene. Controls are WASD (A for left turn, D for right right) and space to interact for dialogue. 
