@@ -1,0 +1,166 @@
+[gd_scene load_steps=25 format=3 uid="uid://duwpt2siyemie"]
+
+[ext_resource type="Texture2D" uid="uid://cg5kjc5fk4k6f" path="res://grasstexture.png" id="1_0f027"]
+[ext_resource type="Texture2D" uid="uid://duq857n5xyvf7" path="res://skybox.png" id="1_d5x1h"]
+[ext_resource type="PackedScene" uid="uid://47ywc301ml1s" path="res://player.tscn" id="2_2c62f"]
+[ext_resource type="PackedScene" uid="uid://cdvc016fa8kmf" path="res://wall.tscn" id="3_gyfs4"]
+[ext_resource type="PackedScene" uid="uid://d055lg1sgl63p" path="res://npc_1.tscn" id="5_8mm7a"]
+[ext_resource type="PackedScene" uid="uid://dx3128ra58gmx" path="res://dialogue_player.tscn" id="6_hq1ik"]
+[ext_resource type="PackedScene" uid="uid://bhf1n2so8gmj4" path="res://wall2.tscn" id="7_nfk4m"]
+[ext_resource type="PackedScene" uid="uid://xegq1ea4ikbk" path="res://npc_2.tscn" id="8_66tet"]
+[ext_resource type="PackedScene" uid="uid://dg1tw5sbmwdrq" path="res://npc_3.tscn" id="9_7ycvg"]
+[ext_resource type="PackedScene" uid="uid://bo7invvqpi8va" path="res://npc_4.tscn" id="10_qwutr"]
+[ext_resource type="PackedScene" uid="uid://3124kn0up3ba" path="res://npc_5.tscn" id="11_671wp"]
+[ext_resource type="Texture2D" uid="uid://eq6ooolpswre" path="res://polaroids1.jpg" id="12_671wp"]
+[ext_resource type="PackedScene" uid="uid://bq4rplpt7plld" path="res://npc_6.tscn" id="13_42l1d"]
+[ext_resource type="PackedScene" uid="uid://bbygnkmpbpvnk" path="res://npc_7.tscn" id="14_2jcla"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_8mm7a"]
+panorama = ExtResource("1_d5x1h")
+
+[sub_resource type="Sky" id="Sky_hq1ik"]
+sky_material = SubResource("PanoramaSkyMaterial_8mm7a")
+
+[sub_resource type="Environment" id="Environment_2c62f"]
+background_mode = 2
+sky = SubResource("Sky_hq1ik")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2c62f"]
+albedo_texture = ExtResource("1_0f027")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_o3jxj"]
+material = SubResource("StandardMaterial3D_2c62f")
+size = Vector2(10, 10)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_2c62f"]
+data = PackedVector3Array(5, 0, 5, -5, 0, 5, 5, 0, -5, -5, 0, 5, -5, 0, -5, 5, 0, -5)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qwutr"]
+radius = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mo76n"]
+albedo_texture = ExtResource("12_671wp")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_42l1d"]
+material = SubResource("StandardMaterial3D_mo76n")
+size = Vector2(50, 50)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_671wp"]
+points = PackedVector3Array(-25, 0, -25, -25, 0, 25, 25, 0, -25, 25, 0, 25)
+
+[node name="MainScene" type="Node3D"]
+transform = Transform3D(-0.144063, 0, 0.989569, 0, 1, 0, -0.989569, 0, -0.144063, 0, 0, 0)
+
+[node name="Wall2" parent="." instance=ExtResource("3_gyfs4")]
+transform = Transform3D(0.726842, 0, -0.102448, 0, 0.734026, 0, 0.102448, 0, 0.726842, -5.17508, 3.24418, 11.2398)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_2c62f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 7.25339, 0)
+light_color = Color(0.983492, 0.451645, 0.612581, 1)
+light_energy = 3.424
+light_indirect_energy = 6.253
+light_volumetric_fog_energy = 1.323
+light_angular_distance = 39.55
+shadow_enabled = true
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.333798, 0, 2.63746, 0, 1.00129, 0, -2.71856, 0, 0.323839, 0.00345747, 0, -0.00550429)
+mesh = SubResource("PlaneMesh_o3jxj")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_2c62f")
+
+[node name="Player" parent="." instance=ExtResource("2_2c62f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.42472, 1.07979, 0.920801)
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(-0.000259131, 9.46292e-05, 0.999999, -0.000485624, 1, -9.47734e-05, -0.999999, -0.000485652, -0.000259086, -0.0141189, 0.925246, -0.0596687)
+
+[node name="GUI" type="SubViewportContainer" parent="Player/Camera3D"]
+offset_left = 2.0
+offset_top = 5.0
+offset_right = 642.0
+offset_bottom = 494.0
+
+[node name="SubViewport" type="SubViewport" parent="Player/Camera3D/GUI"]
+handle_input_locally = false
+size = Vector2i(640, 489)
+render_target_update_mode = 4
+
+[node name="DialoguePlayer" parent="Player/Camera3D/GUI/SubViewport" instance=ExtResource("6_hq1ik")]
+
+[node name="Area3D" type="Area3D" parent="Player"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/Area3D"]
+shape = SubResource("CylinderShape3D_qwutr")
+
+[node name="Wall5" parent="." instance=ExtResource("3_gyfs4")]
+transform = Transform3D(-0.725428, 0, 0.112017, 0, 0.734026, 0, -0.112017, 0, -0.725428, -3.47896, 3.67013, -12.8292)
+skeleton = NodePath("../Player")
+
+[node name="Wall" parent="." instance=ExtResource("3_gyfs4")]
+transform = Transform3D(-0.251158, 0, -0.726369, 0, 0.734026, 0, 1.72521, 0, -0.105746, -9.81775, 3.09147, -1.35469)
+
+[node name="Child" parent="." instance=ExtResource("5_8mm7a")]
+transform = Transform3D(0.732423, -0.680849, 3.20153e-08, 4.37114e-08, 1.47123e-15, -1, 0.680849, 0.732423, 2.97608e-08, 0.873626, 1.93262, -2.37492)
+
+[node name="Wall3" parent="." instance=ExtResource("3_gyfs4")]
+transform = Transform3D(-0.524952, 0, -0.513049, 0, 0.734026, 0, 0.513049, 0, -0.524952, -7.586, 3.66989, -10.7835)
+
+[node name="Wall4" parent="." instance=ExtResource("3_gyfs4")]
+transform = Transform3D(0.214473, 0, -0.701993, 0, 0.734026, 0, 0.701993, 0, 0.214473, -7.82894, 3.66989, 13.5517)
+
+[node name="Wall6" parent="." instance=ExtResource("7_nfk4m")]
+transform = Transform3D(-0.105746, 0, -0.726369, 0, 0.734026, 0, 0.726369, 0, -0.105746, 9.23303, 5.22132, 1.41709)
+
+[node name="Wall7" parent="." instance=ExtResource("7_nfk4m")]
+transform = Transform3D(-0.105746, 0, -0.726369, 0, 0.734026, 0, 0.726369, 0, -0.105746, 9.38705, 16.3088, 1.39907)
+
+[node name="Wall8" parent="." instance=ExtResource("7_nfk4m")]
+transform = Transform3D(-0.69368, 0, -0.240004, 0, 0.734026, 0, 0.240004, 0, -0.69368, 0.868944, 5.5052, 12.3606)
+
+[node name="Wall9" parent="." instance=ExtResource("7_nfk4m")]
+transform = Transform3D(0.571572, 0, -0.460542, 0, 0.734026, 0, 0.460542, 0, 0.571572, 5.15994, 5.50519, -10.2266)
+
+[node name="NPC2" parent="." instance=ExtResource("8_66tet")]
+transform = Transform3D(0.144063, 0.989568, 6.29719e-09, 4.37114e-08, 1.91069e-15, -1, -0.989568, 0.144063, -4.32554e-08, -6.06578, 1.5, 0.140587)
+
+[node name="NPC3" parent="." instance=ExtResource("9_7ycvg")]
+transform = Transform3D(0.144063, 0.989568, 6.29719e-09, 4.37114e-08, 1.91069e-15, -1, -0.989568, 0.144063, -4.32554e-08, -6.02318, 1.40775, 7.87332)
+
+[node name="NPC4" parent="." instance=ExtResource("10_qwutr")]
+transform = Transform3D(0.144063, 0.989568, 6.29719e-09, 4.37114e-08, 1.91069e-15, -1, -0.989568, 0.144063, -4.32554e-08, 3.56652, 2.40603, 6.85259)
+
+[node name="Wall10" parent="." instance=ExtResource("7_nfk4m")]
+transform = Transform3D(-0.62915, 0, -0.378106, 0, 0.734026, 0, 0.378106, 0, -0.62915, -4.30185, -3.50667, -8.66622)
+
+[node name="NPC5" parent="." instance=ExtResource("11_671wp")]
+transform = Transform3D(0.144063, 0.989568, 6.29719e-09, 4.37114e-08, 1.91069e-15, -1, -0.989568, 0.144063, -4.32554e-08, -4.49751, 2.77104, -8.01758)
+
+[node name="NPC6" parent="." instance=ExtResource("13_42l1d")]
+transform = Transform3D(0.144063, 0.989568, 6.29719e-09, 4.37114e-08, 1.91069e-15, -1, -0.989568, 0.144063, -4.32554e-08, -15.6853, 2.03168, 12.9166)
+skeleton = NodePath("../MeshInstance3D/StaticBody3D")
+
+[node name="Wall11" parent="." instance=ExtResource("7_nfk4m")]
+transform = Transform3D(-0.689951, -0.198218, 0.153202, -0.202682, 0.705489, -1.22164e-10, -0.147246, -0.0423027, -0.71786, -19.2293, 8.46893, 6.86108)
+skeleton = NodePath("../MeshInstance3D/StaticBody3D")
+
+[node name="NPC7" parent="." instance=ExtResource("14_2jcla")]
+transform = Transform3D(0.144063, 0.989568, 6.29719e-09, 4.37114e-08, 1.91069e-15, -1, -0.989568, 0.144063, -4.32554e-08, -14.5992, 2.46741, 19.5412)
+skeleton = NodePath("../MeshInstance3D/StaticBody3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.56, -9.8392, 12.8531)
+mesh = SubResource("PlaneMesh_42l1d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_671wp")

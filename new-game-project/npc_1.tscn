@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://d055lg1sgl63p"]
+
+[ext_resource type="Texture2D" uid="uid://bv3j3poqttakf" path="res://childtexture.png" id="1_0u0ms"]
+[ext_resource type="Script" uid="uid://dpulg6mqdr3oe" path="res://npc_1.gd" id="2_gw7q4"]
+[ext_resource type="Script" uid="uid://cc5d5jofg4kt4" path="res://dialogue_area.gd" id="3_7afwl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gw7q4"]
+transparency = 1
+albedo_texture = ExtResource("1_0u0ms")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7afwl"]
+material = SubResource("StandardMaterial3D_gw7q4")
+size = Vector2(2, 4)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ugq1b"]
+points = PackedVector3Array(-0.515873, -0.015873, -1.01587, 0.531746, 0.015873, 1.01587, 0.531746, -0.015873, 1.01587, 0.531746, 0.015873, -1.01587, -0.515873, 0.015873, 1.01587, -0.515873, -0.015873, 1.01587, 0.531746, -0.015873, -1.01587, -0.515873, 0.015873, -1.01587)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7afwl"]
+radius = 1.0
+
+[node name="NPC1" type="MeshInstance3D"]
+transform = Transform3D(-1, -8.74228e-08, -4.37114e-08, 4.37114e-08, 1.91069e-15, -1, 8.74228e-08, -1, 1.91069e-15, 0, 0, 0)
+mesh = SubResource("PlaneMesh_7afwl")
+script = ExtResource("2_gw7q4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ugq1b")
+
+[node name="DialogueAreaChild" type="Area3D" parent="."]
+script = ExtResource("3_7afwl")
+dialogue_key = "Child"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DialogueAreaChild"]
+transform = Transform3D(1, 2.68659e-16, 0, 0, -4.37114e-08, -1, 1.67037e-22, 1, -4.37114e-08, -0.000728607, -7.43867e-05, 0.00669163)
+shape = SubResource("CylinderShape3D_7afwl")
+
+[connection signal="area_entered" from="DialogueAreaChild" to="DialogueAreaChild" method="_on_area_entered"]
+[connection signal="area_exited" from="DialogueAreaChild" to="DialogueAreaChild" method="_on_area_exited"]
